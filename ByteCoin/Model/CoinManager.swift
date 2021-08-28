@@ -14,11 +14,35 @@ struct CoinManager {
     let apiKey = "YOUR_API_KEY_HERE"
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
-  
+
   func getCoinPrice(for currency: String) {
     
-  }
-
-
+    //Use String concatenation to add the selected currency at the end of the baseURL along with the API key.
     
+    let urlString = "\(baseURL)/\(currency)?apikey=\(apiKey)"
+    
+    //Use optional binding to unwrap the URL that's created from the urlString
+    //1. Create a URL
+    if let url = URL(string: urlString) {
+    
+    //Create a new URLSession object with default configuration.
+    //2. Create a URLSession
+    let session = URLSession(configuration: .default)
+    
+    //3. Give the session a task
+    let task = session.dataTask(with: url) { (data, response, error) in
+      if error != nil {
+        print(error!)
+        return
+      }
+      
+      //Format the data we got back as a string to be able to print it.
+      
+      let dataAsString = String(data: data!, encoding: .utf8)
+      print(dataAsString)
+    }
+      //Start task to fetch data from bitcoin average's servers.
+      task.resume()
+    }
+  }
 }
