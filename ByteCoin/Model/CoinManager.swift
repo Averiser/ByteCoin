@@ -8,7 +8,25 @@
 
 import Foundation
 
+//By convention, Swift protocols are usually written in the file that has the class/struct which will call the
+//delegate methods, i.e. the CoinManager.
+protocol CoinManagerDelegate {
+  
+  //Create the method stubs wihtout implementation in the protocol.
+  //It's usually a good idea to also pass along a reference to the current class.
+  //e.g. func didUpdatePrice(_ coinManager: CoinManager, price: String, currency: String)
+  //Check the Clima module for more info on this.
+  
+  func didUpdatePrice(price: String, currency: String)
+  func didFailWithError(error: Error)
+}
+
 struct CoinManager {
+  
+  //Create an optional delegate that will have to implement the delegate methods.
+  //Which we can notify when we have updated the price.
+  
+  var delegate: CoinManagerDelegate?
     
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC"
     let apiKey = "YOUR_API_KEY_HERE"
